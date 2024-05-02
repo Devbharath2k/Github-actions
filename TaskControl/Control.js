@@ -7,6 +7,8 @@ const jsonwebToken =require('jsonwebtoken')
 const CreateMethod = async (req, res) =>{
    
     try {
+
+        
         if(!req.email && !req.password){
             return(
                 res.status(300).json({
