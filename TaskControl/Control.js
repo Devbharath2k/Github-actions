@@ -1,78 +1,126 @@
-const { create } = require("domain");
-const UserSchema = require("../Usermodel/Schema.js");
+
+const schema = require("../Usermodel/Schema.js");
 const bcrypt = require('bcrypt');
 
 
-const CreateMethod = async (req, res) => {
-
+const createTask = async (req, res) => {
+    const { fname, lname, email, passwd } = req.body;
+  
     try {
-
-        if (!req.email && !req.password) {
-            return (
-                res.status(300).json({
-                    message: "SomeField is are empty"
-                })
-            )
-        }
-
-        const user = await UserSchema.findone(email)
-
-        if (user) {
-            return (
-                res.status(300).json({
-                    message: "email is all registered"
-                })
-            )
-        }
-
-        const hashpassword = await bcrypt.hash(password, 10)
-
-        req.password = hashpassword
-
-        const CreateNewuser = await new create(req)
-
-        await CreateNewuser.save()
-
-        res.status(200).json({
-            message: "successfully created user",
-            data: user._id
-        })
-
+      const task = await schema.create({ fname, lname, email, passwd,  });
+  
+      res.status(200).json({
+        status: 200,
+        msg: "Created task"
+      });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "invalid user not data"
-        })
+      console.error(error);
+  
+      res.status(500).json({
+        status: 500,
+        msg: "Error creating task"
+      });
     }
-}
-
-
-const gettingMethod = async (req, res) => {
+  };
+  
+  //get method 
+  
+  const getTask = async (req, res) => {
     try {
-        const user = await UserSchema.find()
-
-        if (user) {
-            return (
-                res.status(301).json({
-                    message: "all you get or not"
-                })
-            )
-        }
-
-        res.status(200).json({
-            message:"successfully recived in all user",
-            data: user
-        })
-        
+      const task = await schema.find({});
+  
+      res.status(200).json({
+        status: 200,
+        msg: "Tasks retrieved successfully",
+        data: task
+      });
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: "invalid error "
-        })
+      console.error(error);
+  
+      res.status(500).json({
+        status: 500,
+        msg: "Error getting tasks"
+      });
     }
-}
-
-module.exports = {
-    CreateMethod,
-    gettingMethod
-}
+  };
+  
+  //getting id  method
+  
+  const getingtask = async (req, res) => {
+    const id = req.params.id;
+  
+   
+  
+    try {
+      const object = await schema.findById(id);
+      
+      res.status(200).json({
+        message: 'Success',
+        data: object,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: 'Error fetching object by ID',
+        error: error.message,
+      });
+    }
+  };
+  
+  //update object:
+  
+  const updateTask = async (req, res) => {
+    const id = req.params.id;
+  
+    try {
+      const object = await schema.findByIdAndUpdate(
+        id,
+        req.body, 
+        { new: true }
+      );
+  
+      res.status(200).json({
+        message: 'Success',
+        data: object,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: 'Error updating object by ID',
+        error: error.message,
+      });
+    }
+  };
+  
+  // Delete method 
+  
+  const deletepost = async (req,res)=>{
+    const id = req.params.id;
+  
+  
+    try{
+      const object = await schema.findByIdAndDelete(id);
+     
+      res.status(200).json({
+        status: 'OK',
+        msg:"succfully deleted"
+      })
+  
+    }catch(error){
+      console.log(error);
+      res.status(400).json({
+        status: 'Bad Request',
+        msg:"NOt  deleted"
+      })
+  
+    }
+  }
+  
+  
+  module.exports = {
+      createTask,
+      getTask,
+      getingtask,
+      updateTask,
+      deletepost
+    };
