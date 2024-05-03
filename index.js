@@ -17,7 +17,7 @@ app.use(router)
 
 
 app.get('/', function (req, res) {
-    res.send('Hello testing')
+    res.send('Hello testing API')
   })
 
 const connectToDB = async () => {
