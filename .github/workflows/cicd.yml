@@ -24,5 +24,7 @@ jobs:
     steps:
       - name: Pull image from Docker Hub
         run: docker pull rajeswaripoongodi/node-app:latest
+      - name: remove running container
+        run: docker stop node-app-container || true && docker rm node-app-container || true 
       - name: Run Docker container
         run: docker run --name node-app-container -p 4000:4000 -d rajeswaripoongodi/node-app:latest
