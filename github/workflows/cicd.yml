@@ -1,0 +1,28 @@
+name: node application deployment
+on:
+  push:
+    branches:
+      - raji
+
+jobs: 
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout source
+        uses: actions/checkout@v4
+      - name: login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+      - name: build docker image
+        run: docker build -t rajeswaripoongodi/node-app .
+      - name: push docker image to docker hub
+        run: docker push rajeswaripoongodi/node-app:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: pull image from docker hub
+        run: docker pull rajeswaripoongodi/node-app:latest
+      - name: run docker container
+        run: docker run --name node-app-container -p 4000:4000 -e MONGODB_URI='${{ secrets.MONGODB_URI}}' -d rajeswaripoongodi/node-app:latest
+        
