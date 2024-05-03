@@ -19,8 +19,7 @@ jobs:
       run: docker push rajeswaripoongodi/node-app:latest
 
   deploye:
-    needs: build
-    runs-on: node-action
+    runs-on: self-hosted
     steps:
       - name: Pull image from Docker Hub
         run: docker pull rajeswaripoongodi/node-app:latest
