@@ -7,18 +7,18 @@ on:
 
 jobs:
   build:
-    runs-on: Ubuntu 24.04 LTS
-  steps:
-    - name: checkout source
-      uses: actions/checkout@v4
-    - name: login to docker hub
-      uses: docker login -u 'sucessraji@gmail.com' -p 'raji@123kiot'
-    - name: Build Docker image
-      run: docker build -t rajeswaripoongodi/node-app .
-    - name: Push Docker image to Docker Hub
-      run: docker push rajeswaripoongodi/node-app:latest
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        run: docker login -u 'sucessraji@gmail.com' -p 'raji@123kiot'
+      - name: Build Docker image
+        run: docker build -t rajeswaripoongodi/node-app .
+      - name: Push Docker image to Docker Hub
+        run: docker push rajeswaripoongodi/node-app:latest
 
-  deploye:
+  deploy:
     needs: build
     runs-on: self-hosted
     steps:
