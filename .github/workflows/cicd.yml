@@ -16,7 +16,7 @@ jobs:
     - name: Build Docker image
       run: docker build -t rajeswaripoongodi/node-app .
     - name: Push Docker image to Docker Hub
-        run: docker push rajeswaripoongodi/node-app:latest
+      run: docker push rajeswaripoongodi/node-app:latest
 
   deploye:
     needs:  build
