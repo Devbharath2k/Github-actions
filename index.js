@@ -8,8 +8,8 @@ require("dotenv").config();
 const router = require("./Router/route.js")
 
 
-//const PORT = process.env.PORT
-const PORT = 4000;
+const PORT = process.env.PORT
+//const PORT = 4000;
 
 app.use(cors());
 app.use(express.json());
@@ -22,8 +22,8 @@ app.get('/', function (req, res) {
 
 const connectToDB = async () => {
     try {
-        //await mongoose.connect(process.env.MONGODB_URI,);
-        await mongoose.connect("mongodb+srv://axessmongo:admin@cluster0.ozjlhdj.mongodb.net/testing?retryWrites=true&w=majority");
+        await mongoose.connect(process.env.MONGODB_URI,);
+        //await mongoose.connect("mongodb+srv://axessmongo:admin@cluster0.ozjlhdj.mongodb.net/testing?retryWrites=true&w=majority");
         console.log('Connected to MongoDB');
         app.listen(PORT, () => {
             console.log('Server is listening on port ' + PORT);
