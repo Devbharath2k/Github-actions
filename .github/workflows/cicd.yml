@@ -1,7 +1,7 @@
 name: Deploy node application
 
 on:
-  build:
+  push:
     branches:
       - raji
 
@@ -19,6 +19,7 @@ jobs:
       run: docker push rajeswaripoongodi/node-app:latest
 
   deploye:
+    needs: build
     runs-on: self-hosted
     steps:
       - name: Pull image from Docker Hub
